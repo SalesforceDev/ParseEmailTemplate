@@ -56,7 +56,7 @@ public class MergeFields
     private static Set<String> getFields(String content, String objectAPI)
     {
         Set<String> fieldApis = new Set<String>();
-        Matcher m = Pattern.compile('(\\[' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\])').matcher(content);
+        Matcher m = Pattern.compile('(\\{!' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\})').matcher(content);
         Set<String> matchFields = new Set<String>();
         while(m.find())
         {
@@ -69,7 +69,7 @@ public class MergeFields
 
     private static String match(String content, Map<String, String> obj, String objectAPI)
     {
-        Matcher m = Pattern.compile('(\\[' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\])').matcher(content);
+        Matcher m = Pattern.compile('(\\{!' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\})').matcher(content);
         Set<String> matchFields = new Set<String>();
         while(m.find())
         {
