@@ -1,0 +1,16 @@
+{
+    "projectName": "ParseEmailTemplate",
+    "username": "samba.developer@hotmail.com",
+    "id": "028788a0-153b-11e7-b70a-b5706281c76f",
+    "namespace": "",
+    "environment": "developer",
+    "loginUrl": "https://login.salesforce.com/",
+    "workspace": "/Users/samba/Documents/Github",
+    "subscription": [
+        "ApexClass",
+        "ApexComponent",
+        "ApexPage",
+        "ApexTrigger",
+        "StaticResource"
+    ]
+}
