@@ -1,24 +1,25 @@
 public class MergeFields
 {
-    public static Map<Id, String> parse(Map<Id, String> objectIdToContent, String objectAPI)
+    public static Map<Id, String> parse(Map<Id, String> objectIdToContent)
     {
         Set<String> allApis = new Set<String>();
+        String objectAPI = '';
         for(Id objId : objectIdToContent.keySet())
         {
+            objectAPI = getObjectAPI(objId);
             allApis.addAll(getFields(objectIdToContent.get(objId), objectAPI));
         }
-        String strLeadFields = '';
+        String objectFields = '';
         for(String field : allApis)
         {
-            strLeadFields += field + ', ';
+            objectFields += field + ', ';
         }
-
-        if(strLeadFields != '')
+        if(objectFields != '')
         {
             Map<Id, String> objectIdToNewContent = new Map<Id, String>();
-            strLeadFields = strLeadFields.substring(0, strLeadFields.length() - 2);
-            Set<Id> leadIds = objectIdToContent.keySet();
-            String queryStr = 'select ' + strLeadFields + ' from ' + objectAPI + ' where Id in :leadIds';
+            objectFields = objectFields.substring(0, objectFields.length() - 2);
+            Set<Id> objectIds = objectIdToContent.keySet();
+            String queryStr = 'select ' + objectFields + ' from ' + objectAPI + ' where Id in :objectIds';
             Map<String, String> tempMap = new Map<String, String>();
             for(sObject obj : Database.query(queryStr))
             {
@@ -56,7 +57,7 @@ public class MergeFields
     private static Set<String> getFields(String content, String objectAPI)
     {
         Set<String> fieldApis = new Set<String>();
-        Matcher m = Pattern.compile('(\\{!' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\})').matcher(content);
+        Matcher m = Pattern.compile('(\\{!\\s*' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\s*\\})').matcher(content);
         Set<String> matchFields = new Set<String>();
         while(m.find())
         {
@@ -69,7 +70,7 @@ public class MergeFields
 
     private static String match(String content, Map<String, String> obj, String objectAPI)
     {
-        Matcher m = Pattern.compile('(\\{!' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\})').matcher(content);
+        Matcher m = Pattern.compile('(\\{!\\s*' + objectAPI + '\\.([A-Za-z\\._0-9]+)\\s*\\})').matcher(content);
         Set<String> matchFields = new Set<String>();
         while(m.find())
         {
@@ -96,5 +97,19 @@ public class MergeFields
         }
 
         return content;
+    }
+
+    private static String getObjectAPI(String recordId)
+    {
+        String keyCode  = recordId.subString(0,3);
+        Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+        for(Schema.SObjectType objectInstance : gd.values())
+        {
+            if(objectInstance.getDescribe().getKeyPrefix() == keyCode)
+            {
+                return objectInstance.getDescribe().getName();
+            }
+        }
+        return null;
     }
 }
