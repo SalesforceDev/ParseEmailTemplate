@@ -24,6 +24,7 @@ for(Contact con : [select Id from Contact limit 100])
 	contacts.add(con.Id);
 }
 Map<Id, String> result = MergeFields.parse(contacts, templateObj.HTMLValue);
+```
 
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :) 
