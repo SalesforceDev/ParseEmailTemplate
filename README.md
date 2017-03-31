@@ -6,7 +6,7 @@
 2. If we want to send the email using apex code, and the client want to use email template. So we must be use setTargetObjectId method in our apex code, however, we don't want to use it. So we need to parse the email template using MergeFields class.
 
 ## How to use MergeFields Class?
-This class is simple, you only need to call this code below. 
+Please see the code below, you only need to call it in your apex code. So easy.
 ```java
 Map<Id, String> objectIdToContent = MergeFields.parse(ids, content);
 ```
