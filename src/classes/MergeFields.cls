@@ -1,13 +1,14 @@
 public class MergeFields
 {
-    public static Map<Id, String> parse(Map<Id, String> objectIdToContent)
+    public static Map<Id, String> parse(Set<Id> ids, String content)
     {
         Set<String> allApis = new Set<String>();
         String objectAPI = '';
-        for(Id objId : objectIdToContent.keySet())
+        for(Id objId : ids)
         {
             objectAPI = getObjectAPI(objId);
-            allApis.addAll(getFields(objectIdToContent.get(objId), objectAPI));
+            allApis.addAll(getFields(content, objectAPI));
+            break;
         }
         String objectFields = '';
         for(String field : allApis)
@@ -18,8 +19,7 @@ public class MergeFields
         {
             Map<Id, String> objectIdToNewContent = new Map<Id, String>();
             objectFields = objectFields.substring(0, objectFields.length() - 2);
-            Set<Id> objectIds = objectIdToContent.keySet();
-            String queryStr = 'select ' + objectFields + ' from ' + objectAPI + ' where Id in :objectIds';
+            String queryStr = 'select ' + objectFields + ' from ' + objectAPI + ' where Id in :ids';
             Map<String, String> tempMap = new Map<String, String>();
             for(sObject obj : Database.query(queryStr))
             {
@@ -28,12 +28,16 @@ public class MergeFields
                     tempMap.put(field, String.valueOf(getFieldValue(obj, field)));
                 }
 
-                objectIdToNewContent.put(obj.Id, match(objectIdToContent.get(obj.Id), tempMap, objectAPI));
+                objectIdToNewContent.put(obj.Id, match(content, tempMap, objectAPI));
             }
-
             return objectIdToNewContent;
         }
-
+        
+        Map<Id, String> objectIdToContent = new Map<Id, String>();
+        for(Id objId : ids)
+        {
+            objectIdToContent.put(objId, content);
+        }
         return objectIdToContent;
     }
 

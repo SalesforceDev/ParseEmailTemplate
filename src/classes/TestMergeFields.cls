@@ -6,8 +6,8 @@ public class TestMergeFields
     {
         Contact con = new Contact(LastName = 'Test');
         insert con;
-        Map<Id, String> contactMap = new Map<Id, String>();
-        contactMap.put(con.Id, 'Hello {!Contact.LastName}');
-        System.assert(MergeFields.parse(contactMap).get(con.Id) == 'Hello Test');
+        Set<Id> contacts = new Set<Id>();
+        contacts.add(con.Id);
+        System.assert(MergeFields.parse(contacts, 'Hello {!Contact.LastName}').get(con.Id) == 'Hello Test');
     }
 }
