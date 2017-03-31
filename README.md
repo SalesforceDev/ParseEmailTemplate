@@ -4,7 +4,7 @@
 
 ## How to use MergeFields class?
 
-Parse Email Template with type = Text
+#### Parse Email Template with type = Text
 
 ```java
 EmailTemplate templateObj = [select Body from EmailTemplate where DeveloperName = 'Test01'];
@@ -15,7 +15,7 @@ for(Contact con : [select Id from Contact limit 100])
 }
 Map<Id, String> result = MergeFields.parse(contacts, templateObj.Body)
 ```
-Parse Email Template with type = HTML
+#### Parse Email Template with type = HTML
 ```java
 EmailTemplate templateObj = [select HTMLValue from EmailTemplate where DeveloperName = 'Test01'];
 Set<Id> contacts = new Set<Id>;
@@ -25,6 +25,9 @@ for(Contact con : [select Id from Contact limit 100])
 }
 Map<Id, String> result = MergeFields.parse(contacts, templateObj.HTMLValue);
 ```
+## Installation
+This is a Unmanaged package, please see the installation url below.
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04ti00000011RRj
 
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :) 
