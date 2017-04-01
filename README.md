@@ -12,8 +12,7 @@ Map<Id, String> objectIdToContent = MergeFields.parse(ids, content);
 ```
 
 #### Object parameter description
-Set<Id> ids -> record ids
-String content -> email template body
+ids -> record ids and content -> email template body
 
 #### Parsing the text content
 
